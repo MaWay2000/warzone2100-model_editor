@@ -1,1 +1,185 @@
-Welcome
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Warzone 2100 PIE Model Viewer</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Warzone 2100 Toolkit</p>
+          <h1>PIE Model Viewer</h1>
+          <p class="subtitle">
+            Inspect geometry, load matching texture pages, tweak vertex positions, and export
+            updated PIE files.
+          </p>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="button ghost" id="sample-button" type="button">Load Sample</button>
+          <label class="button" for="file-input">Open PIE + Textures</label>
+          <input
+            id="file-input"
+            type="file"
+            accept=".pie,.png,.jpg,.jpeg,.webp,.bmp"
+            multiple
+            hidden
+          />
+          <button class="button accent" id="export-button" type="button" disabled>
+            Export .pie
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="panel control-column">
+          <section class="section">
+            <p class="section-kicker">Pipeline</p>
+            <h2>Load Files</h2>
+            <p class="section-copy">
+              Drop a `.pie` file anywhere in the app. If you also drop the texture page named in
+              the `TEXTURE` line, it will bind automatically.
+            </p>
+            <div class="drop-hint">
+              Use the same texture filename referenced inside the model, for example
+              <code>page-17-droid-weapons.png</code>.
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Model</p>
+                <h2>Summary</h2>
+              </div>
+              <span class="badge" id="uv-badge">No file</span>
+            </div>
+            <div class="stat-grid" id="model-summary"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Viewport</p>
+                <h2>Controls</h2>
+              </div>
+            </div>
+            <label class="field">
+              <span>Active level</span>
+              <select id="level-select" disabled></select>
+            </label>
+
+            <div class="toggle-grid">
+              <label class="toggle">
+                <input id="toggle-wireframe" type="checkbox" checked />
+                <span>Wireframe</span>
+              </label>
+              <label class="toggle">
+                <input id="toggle-points" type="checkbox" checked />
+                <span>Points</span>
+              </label>
+              <label class="toggle">
+                <input id="toggle-connectors" type="checkbox" checked />
+                <span>Connectors</span>
+              </label>
+              <label class="toggle">
+                <input id="toggle-grid" type="checkbox" checked />
+                <span>Grid</span>
+              </label>
+              <label class="toggle">
+                <input id="toggle-axes" type="checkbox" checked />
+                <span>Axes</span>
+              </label>
+              <label class="toggle">
+                <input id="toggle-invert-v" type="checkbox" />
+                <span>Invert V</span>
+              </label>
+            </div>
+
+            <div class="button-row">
+              <button class="button ghost" id="fit-button" type="button">Reframe Model</button>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Editing</p>
+                <h2>Selected Point</h2>
+              </div>
+            </div>
+
+            <div class="empty-state" id="point-empty">
+              Click a point in the viewport or choose one from the list to edit its coordinates.
+            </div>
+
+            <div id="point-editor" hidden>
+              <div class="selected-point-card">
+                <span>Point index</span>
+                <strong id="selected-point-index">-</strong>
+              </div>
+
+              <div class="field-grid">
+                <label class="field">
+                  <span>X</span>
+                  <input id="point-x" type="number" step="0.1" />
+                </label>
+                <label class="field">
+                  <span>Y</span>
+                  <input id="point-y" type="number" step="0.1" />
+                </label>
+                <label class="field">
+                  <span>Z</span>
+                  <input id="point-z" type="number" step="0.1" />
+                </label>
+              </div>
+
+              <p class="section-copy compact">
+                Changes apply live in the viewer and are included when you export the PIE file.
+              </p>
+            </div>
+          </section>
+        </aside>
+
+        <section class="panel viewer-panel">
+          <div class="viewer-toolbar">
+            <div class="viewer-chip-row">
+              <span class="viewer-chip" id="model-chip">No model loaded</span>
+              <span class="viewer-chip muted" id="texture-chip">Texture not loaded</span>
+            </div>
+            <p class="viewer-caption">
+              Orbit: drag. Zoom: wheel. Pan: right mouse button.
+            </p>
+          </div>
+
+          <div class="viewer-surface" id="viewer"></div>
+          <p class="status-bar" id="status-text">Loading bundled sample...</p>
+        </section>
+
+        <aside class="panel inspector-column">
+          <section class="section">
+            <p class="section-kicker">Geometry</p>
+            <h2>Points</h2>
+            <div class="list-panel" id="point-list"></div>
+          </section>
+
+          <section class="section">
+            <p class="section-kicker">Anchors</p>
+            <h2>Connectors</h2>
+            <div class="list-panel" id="connector-list"></div>
+          </section>
+
+          <section class="section">
+            <p class="section-kicker">Metadata</p>
+            <h2>Notes</h2>
+            <div class="notes-panel" id="notes-list"></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
