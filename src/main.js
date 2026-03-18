@@ -32,6 +32,8 @@ const elements = {
   connectorList: document.querySelector("#connector-list"),
 };
 
+const SAMPLE_PIE_URL = `${import.meta.env.BASE_URL}samples/trlcan.pie`;
+
 const state = {
   activeLevelIndex: 0,
   model: null,
@@ -675,7 +677,7 @@ function bindEvents() {
   });
 
   elements.sampleButton.addEventListener("click", async () => {
-    const response = await fetch("/samples/trlcan.pie");
+    const response = await fetch(SAMPLE_PIE_URL);
     await loadPieFromText(await response.text(), "trlcan.pie");
   });
 
@@ -774,7 +776,7 @@ bindEvents();
 animate();
 renderChrome();
 
-fetch("/samples/trlcan.pie")
+fetch(SAMPLE_PIE_URL)
   .then((response) => response.text())
   .then((text) => loadPieFromText(text, "trlcan.pie"))
   .catch(() => {
