@@ -1,4 +1,3 @@
-import "./styles.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { getUvMode, parsePie, serializePie, summarizeLevel } from "./pie-format.js";
@@ -32,7 +31,7 @@ const elements = {
   connectorList: document.querySelector("#connector-list"),
 };
 
-const SAMPLE_PIE_URL = `${import.meta.env.BASE_URL}samples/trlcan.pie`;
+const SAMPLE_PIE_URL = new URL("../samples/trlcan.pie", import.meta.url).href;
 
 const state = {
   activeLevelIndex: 0,
